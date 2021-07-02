@@ -6,6 +6,7 @@ import OpusScript = require("opusscript"); // Thanks TypeScript
 import { URL } from "url";
 import { Socket as DgramSocket } from "dgram";
 import * as WebSocket from "ws";
+import { IPC } from 'eris-fleet';
 
 declare function Eris(token: string, options?: Eris.ClientOptions): Eris.Client;
 
@@ -1435,6 +1436,7 @@ declare namespace Eris {
     groupChannels: Collection<GroupChannel>;
     guilds: Collection<Guild>;
     guildShardMap: { [s: string]: number };
+    ipc: IPC;
     lastConnect: number;
     lastReconnectDelay: number;
     notes: { [s: string]: string };
