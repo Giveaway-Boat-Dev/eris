@@ -1439,7 +1439,6 @@ declare namespace Eris {
     groupChannels: Collection<GroupChannel>;
     guilds: Collection<Guild>;
     guildShardMap: { [s: string]: number };
-    ipc: IPC;
     lastConnect: number;
     lastReconnectDelay: number;
     notes: { [s: string]: string };
