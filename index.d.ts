@@ -225,6 +225,9 @@ declare namespace Eris {
     restMode?: boolean;
     seedVoiceConnections?: boolean;
     ws?: unknown;
+    clusterID?: number;
+    workerID?: number;
+    ipc?: IPC;
   }
   interface CommandClientOptions {
     argsSplitter?: (str: string) => string[];
@@ -1457,6 +1460,9 @@ declare namespace Eris {
     users: Collection<User>;
     userSettings: UserSettings;
     voiceConnections: VoiceConnectionManager;
+    clusterID: number;
+    workerID: number;
+    ipc: IPC;
     constructor(token: string, options?: ClientOptions);
     acceptInvite(inviteID: string): Promise<Invite<"withoutCount">>;
     addGroupRecipient(groupID: string, userID: string): Promise<void>;
