@@ -6,7 +6,6 @@ import OpusScript = require("opusscript"); // Thanks TypeScript
 import { URL } from "url";
 import { Socket as DgramSocket } from "dgram";
 import * as WebSocket from "ws";
-import { IPC } from 'eris-fleet';
 
 declare function Eris(token: string, options?: Eris.ClientOptions): Eris.Client;
 
@@ -2698,3 +2697,158 @@ declare namespace Eris {
 }
 
 export = Eris;
+
+
+declare class IPC extends EventEmitter {
+    constructor();
+    /**
+     * Broadcast an event to all clusters and services
+     * @param op Name of the event
+     * @param message Message to send
+    */
+    broadcast(op: string, message?: unknown): void;
+    /**
+     * Broadcast to the master process
+     * @param op Name of the event
+     * @param message Message to send
+    */
+    admiralBroadcast(op: string, message?: unknown): void;
+    /**
+     * Send a message to a specific cluster
+     * @param cluster ID of the cluster
+     * @param op Name of the event
+     * @param message Message to send
+    */
+    sendTo(cluster: number, op: string, message?: unknown): void;
+    /**
+     * Fetch a user from the Eris client on any cluster
+     * @param id User ID
+     * @returns The Eris user object converted to JSON
+    */
+    fetchUser(id: string): Promise<any>;
+    /**
+     * Fetch a guild from the Eris client on any cluster
+     * @param id Guild ID
+     * @returns The Eris guild object converted to JSON
+    */
+    fetchGuild(id: string): Promise<any>;
+    /**
+     * Fetch a Channel from the Eris client on any cluster
+     * @param id Channel ID
+     * @returns The Eris channel object converted to JSON
+    */
+    fetchChannel(id: string): Promise<any>;
+    /**
+     * Fetch a user from the Eris client on any cluster
+     * @param guildID Guild ID
+     * @param memberID the member's user ID
+     * @returns The Eris member object converted to JSON
+    */
+    fetchMember(guildID: string, memberID: string): Promise<any>;
+    /**
+     * Execute a service command
+     * @param service Name of the service
+     * @param message Whatever message you want to send with the command
+     * @param receptive Whether you expect something to be returned to you from the command
+    */
+    command(service: string, message?: unknown, receptive?: boolean): Promise<unknown>;
+    /**
+     * @returns The latest stats
+    */
+    getStats(): Promise<Stats>;
+    /**
+     * Restarts a specific cluster
+     * @param clusterID ID of the cluster to restart
+     * @param hard Whether to ignore the soft shutdown function
+    */
+    restartCluster(clusterID: number, hard?: boolean): void;
+    /**
+     * Restarts all clusters
+     * @param hard Whether to ignore the soft shutdown function
+    */
+    restartAllClusters(hard?: boolean): void;
+    /**
+     * Restarts a specific service
+     * @param serviceName Name of the service
+     * @param hard Whether to ignore the soft shutdown function
+    */
+    restartService(serviceName: string, hard?: boolean): void;
+    /**
+     * Restarts all services
+     * @param hard Whether to ignore the soft shutdown function
+    */
+    restartAllServices(hard?: boolean): void;
+    /**
+     * Shuts down a cluster
+     * @param clusterID The ID of the cluster to shutdown
+     * @param hard Whether to ignore the soft shutdown function
+    */
+    shutdownCluster(clusterID: number, hard?: boolean): void;
+    /**
+     * Shuts down a cluster
+     * @param serviceName The name of the service
+     * @param hard Whether to ignore the soft shutdown function
+    */
+    shutdownService(serviceName: string, hard?: boolean): void;
+    /**
+     * Shuts down everything and exists the master process
+     * @param hard Whether to ignore the soft shutdown function
+    */
+    totalShutdown(hard?: boolean): void;
+    /**
+     * Reshards all clusters
+    */
+    reshard(): void;
+    /**
+     * Make an API request
+     * @arg {String} method Uppercase HTTP method
+     * @arg {String} url URL of the endpoint
+     * @arg {Boolean} [auth] Whether to add the Authorization header and token or not
+     * @arg {Object} [body] Request payload
+     * @arg {Object} [file] File object
+     * @arg {Buffer} file.file A buffer containing file data
+     * @arg {String} file.name What to name the file
+     * @arg {String} _route What route to send request to
+     * @arg {Boolean} short Idk what this does
+     * @arg {Number} workerID Worker ID
+     * @returns {Promise<Object>} Resolves with the returned JSON data
+    */
+    requestAPI(method: string, url: string, auth: boolean, body: any, file: any, _route: string, short: boolean, workerID: number): Promise<unknown>;
+}
+
+
+interface ShardStats {
+  latency: number;
+  id: number;
+  ready: boolean;
+  status: "disconnected" | "connecting" | "handshaking" | "ready";
+  guilds: number;
+  users: number;
+}
+interface ClusterStats {
+  id: number;
+  guilds: number;
+  users: number;
+  uptime: number;
+  voice: number;
+  largeGuilds: number;
+  ram: number;
+  shardStats: ShardStats[] | [];
+}
+interface ServiceStats {
+  name: number;
+  ram: number;
+}
+interface Stats {
+  guilds: number;
+  users: number;
+  clustersRam: number;
+  servicesRam: number;
+  masterRam: number;
+  totalRam: number;
+  voice: number;
+  largeGuilds: number;
+  shardCount: number;
+  clusters: ClusterStats[];
+  services: ServiceStats[];
+}

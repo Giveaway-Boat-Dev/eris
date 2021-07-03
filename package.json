@@ -42,7 +42,6 @@
   },
   "homepage": "https://abal.moe/Eris/",
   "dependencies": {
-    "eris-fleet": "github:Giveaway-Boat-Dev/eris-fleet#dev",
     "ws": "^7.2.1"
   },
   "devDependencies": {
