@@ -227,6 +227,7 @@ declare namespace Eris {
     clusterID?: number;
     workerID?: number;
     ipc?: IPC;
+    totalShardCount?: number;
   }
   interface CommandClientOptions {
     argsSplitter?: (str: string) => string[];
@@ -1461,6 +1462,7 @@ declare namespace Eris {
     clusterID: number;
     workerID: number;
     ipc: IPC;
+    totalShardCount: number;
     constructor(token: string, options?: ClientOptions);
     acceptInvite(inviteID: string): Promise<Invite<"withoutCount">>;
     addGroupRecipient(groupID: string, userID: string): Promise<void>;
