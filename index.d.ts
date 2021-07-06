@@ -2728,15 +2728,11 @@ declare class Cluster {
   clientOptions: Eris.ClientOptions;
   whatToLog: string[];
   bot: Eris.Client;
-  private token;
   app?: BaseClusterWorker;
   App: any;
   shutdown?: boolean;
   totalShardCount: number;
-  private startingStatus?;
   constructor(totalShardCount: number);
-  private connect;
-  private loadCode;
 }
 
 
