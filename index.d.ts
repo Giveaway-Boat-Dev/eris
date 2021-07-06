@@ -2700,6 +2700,45 @@ declare namespace Eris {
 
 export = Eris;
 
+interface Setup {
+  bot: Eris.Client;
+  clusterID: number;
+  workerID: number;
+  ipc: IPC;
+}
+
+declare class BaseClusterWorker {
+  bot: Eris.Client;
+  clusterID: number;
+  workerID: number;
+  ipc: IPC;
+
+  shutdown?: (done: () => void) => void;
+  constructor(setup: Setup);
+}
+
+declare class Cluster {
+  firstShardID: number;
+  lastShardID: number;
+  path: string;
+  clusterID: number;
+  clusterCount: number;
+  shardCount: number;
+  shards: number;
+  clientOptions: Eris.ClientOptions;
+  whatToLog: string[];
+  bot: Eris.Client;
+  private token;
+  app?: BaseClusterWorker;
+  App: any;
+  shutdown?: boolean;
+  totalShardCount: number;
+  private startingStatus?;
+  constructor(totalShardCount: number);
+  private connect;
+  private loadCode;
+}
+
 
 declare class IPC extends EventEmitter {
     constructor();
@@ -2714,7 +2753,7 @@ declare class IPC extends EventEmitter {
      * @param code Code to eval in all clusters
      * @param workerID Worker ID
     */
-    broadcastEval(code: string, workerID: number): Promise<unknown>;
+    broadcastEval(code: string | ((cluster: Cluster) => any), workerID: number): Promise<unknown>;
     /**
      * Broadcast to the master process
      * @param op Name of the event
