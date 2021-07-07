@@ -2727,7 +2727,7 @@ declare class Cluster {
   shards: number;
   clientOptions: Eris.ClientOptions;
   whatToLog: string[];
-  bot: Eris.Client;
+  client: Eris.Client;
   app?: BaseClusterWorker;
   App: any;
   shutdown?: boolean;
