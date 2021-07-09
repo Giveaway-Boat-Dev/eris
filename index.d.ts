@@ -2749,7 +2749,7 @@ declare class IPC extends EventEmitter {
      * @param code Code to eval in all clusters
      * @param workerID Worker ID
     */
-    broadcastEval(code: string | ((cluster: Cluster) => any), workerID: number): Promise<unknown>;
+    broadcastEval<T = string>(code: string | ((cluster: Cluster) => T), workerID: number): Promise<T extends string ? any[] : T[]>;
     /**
      * Broadcast to the master process
      * @param op Name of the event
